@@ -1,7 +1,8 @@
 node_modules/
 dist/
 lib/
-.emulator-data/
+.emulator-data/*
+!.emulator-data/.gitkeep
 *.log
 .env
 .env.local

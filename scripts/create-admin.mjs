@@ -19,6 +19,11 @@ const args = Object.fromEntries(
   process.argv.slice(2).reduce((acc, a, i, arr) => (a.startsWith("--") ? [...acc, [a.slice(2), arr[i + 1]]] : acc), []),
 );
 const { project, email, password, name = "Administrador" } = args;
+// --emulator true: usar los emuladores locales (funciona igual en Windows, Mac y Linux)
+if (args.emulator) {
+  process.env.FIREBASE_AUTH_EMULATOR_HOST ??= "127.0.0.1:9099";
+  process.env.FIRESTORE_EMULATOR_HOST ??= "127.0.0.1:8080";
+}
 if (!project || !email) {
   console.error("Uso: node scripts/create-admin.mjs --project <id> --email <correo> [--password <clave>] [--name <nombre>]");
   process.exit(1);

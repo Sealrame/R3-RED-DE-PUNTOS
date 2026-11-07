@@ -114,10 +114,10 @@ En otra terminal:
 npm --prefix web run dev
 ```
 
-Crea el admin en el emulador:
+Crea el admin en el emulador (usuario `admin@demo.ec`, contraseña `Admin12345`):
 
 ```bash
-FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 node scripts/create-admin.mjs --project demo-red-puntos --email admin@demo.ec --password Admin12345 --name "Administrador"
+npm run admin:local
 ```
 
 Abre `http://127.0.0.1:5173` (en el emulador, usa 127.0.0.1 en lugar de localhost). La cámara requiere HTTPS en celulares reales; en desarrollo, prueba en la PC o usa el código manual.
