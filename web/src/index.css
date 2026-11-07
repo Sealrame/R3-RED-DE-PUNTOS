@@ -4,7 +4,8 @@
 @theme {
   --font-sans: "Manrope Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --color-paper: #f5f4f0;
+  --color-page: #ffffff;
+  --color-paper: #f4f5f7;
   --color-surface: #ffffff;
   --color-line: #e6e3dc;
   --color-line-strong: #d3cfc5;
@@ -55,7 +56,7 @@
   -webkit-tap-highlight-color: transparent;
 }
 html, body {
-  background: var(--color-paper);
+  background: var(--color-page);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

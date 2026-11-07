@@ -53,7 +53,7 @@ function AppShell({ role }: { role: Role }) {
   return (
     <div className="min-h-dvh lg:pl-64">
       {/* Sidebar escritorio */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-surface/80 px-4 py-5 backdrop-blur lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-white px-4 py-5 backdrop-blur lg:flex">
         <div className="px-2"><Logo /></div>
         <nav className="mt-8 flex flex-1 flex-col gap-1">
           {items.map((i) => (
@@ -72,7 +72,7 @@ function AppShell({ role }: { role: Role }) {
       </aside>
 
       {/* Barra superior móvil */}
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-line/70 bg-paper/85 px-4 py-3 backdrop-blur-md lg:hidden" style={{ paddingTop: "max(env(safe-area-inset-top), 0.75rem)" }}>
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-line/70 bg-white/90 px-4 py-3 backdrop-blur-md lg:hidden" style={{ paddingTop: "max(env(safe-area-inset-top), 0.75rem)" }}>
         <Logo />
         <div className="flex items-center gap-1">
           {items.filter((i) => !i.mobile).map((i) => (

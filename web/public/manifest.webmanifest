@@ -1,9 +1,9 @@
 {
-  "name": "Red Puntos",
-  "short_name": "Red Puntos",
+  "name": "R3 Red de Talleres",
+  "short_name": "R3 Puntos",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f5f4f0",
+  "background_color": "#ffffff",
   "theme_color": "#0c1a14",
   "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
 }

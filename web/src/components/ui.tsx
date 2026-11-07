@@ -115,7 +115,14 @@ export function Stat({ label, value, sub, icon, accent }: { label: string; value
   );
 }
 
+/** Logo de la marca: coloca el archivo oficial en web/public/brand/logo.png (fondo transparente). */
 export function Logo({ light, compact }: { light?: boolean; compact?: boolean }) {
+  const [img, setImg] = useState(true);
+  if (img)
+    return (
+      <img src="/brand/logo.png" alt={BRAND} onError={() => setImg(false)}
+        className={cx(compact ? "h-9" : "h-10", "w-auto max-w-44 object-contain", light && "rounded-lg bg-white p-1")} />
+    );
   return (
     <span className="inline-flex items-center gap-2.5">
       <span className="relative grid size-9 place-items-center rounded-xl bg-brand-900 shadow-sm ring-1 ring-white/10">

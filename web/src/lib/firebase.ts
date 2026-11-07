@@ -6,7 +6,7 @@ import { connectStorageEmulator, getStorage } from "firebase/storage";
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
 
 const env = import.meta.env;
-export const BRAND = env.VITE_BRAND_NAME || "Red Puntos";
+export const BRAND = env.VITE_BRAND_NAME || "R3 Red de Talleres";
 const useEmulators = env.VITE_USE_EMULATORS === "true";
 
 export const app = initializeApp({
