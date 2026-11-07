@@ -1,0 +1,88 @@
+rules_version = '2';
+
+// Modelo de seguridad:
+//  - Rol y vínculos (distributorId / affiliateId) viven en custom claims firmados por el backend.
+//  - El cliente NUNCA escribe saldos, transacciones, canjes, configuración ni auditoría:
+//    todas las escrituras de negocio pasan por Cloud Functions (Admin SDK, que omite estas reglas).
+//  - Las lecturas se limitan a lo que corresponde a cada rol.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function role() { return signedIn() ? request.auth.token.get('role', '') : ''; }
+    function isAdmin() { return role() == 'admin'; }
+    function isDistributor() { return role() == 'distributor'; }
+    function isAffiliate() { return role() == 'affiliate'; }
+    function myDistributor() { return request.auth.token.get('distributorId', ''); }
+    function myAffiliate() { return request.auth.token.get('affiliateId', ''); }
+
+    // Perfil de acceso de cada usuario
+    match /users/{uid} {
+      allow read: if isAdmin() || (signedIn() && request.auth.uid == uid);
+      allow write: if false;
+    }
+
+    match /distributors/{id} {
+      allow read: if isAdmin() || (isDistributor() && myDistributor() == id);
+      allow write: if false;
+
+      match /monthly/{month} {
+        allow read: if isAdmin() || (isDistributor() && myDistributor() == id);
+        allow write: if false;
+      }
+    }
+
+    // Datos personales del afiliado: solo él y el admin. Los distribuidores usan funciones con datos limitados.
+    match /affiliates/{id} {
+      allow read: if isAdmin() || (isAffiliate() && myAffiliate() == id);
+      allow write: if false;
+    }
+
+    match /points_wallets/{id} {
+      allow read: if isAdmin() || (isAffiliate() && myAffiliate() == id);
+      allow write: if false;
+    }
+
+    // Movimientos de puntos: el distribuidor solo ve los que él registró; el afiliado solo los suyos.
+    match /transactions/{id} {
+      allow read: if isAdmin()
+        || (isDistributor() && resource.data.distributorId == myDistributor())
+        || (isAffiliate() && resource.data.affiliateId == myAffiliate());
+      allow write: if false;
+    }
+
+    match /rewards/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.active == true);
+      allow write: if false;
+    }
+
+    match /redemptions/{id} {
+      allow read: if isAdmin() || (isAffiliate() && resource.data.affiliateId == myAffiliate());
+      allow write: if false;
+    }
+
+    match /config/{id} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /stats/{id} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+    match /stats_monthly/{id} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /audit_logs/{id} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    // Índice de unicidad interno (identificaciones y códigos). Solo backend.
+    match /registry/{id} {
+      allow read, write: if false;
+    }
+  }
+}
