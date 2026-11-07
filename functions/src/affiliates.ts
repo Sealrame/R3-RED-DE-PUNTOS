@@ -190,3 +190,12 @@ export const updateMyProfile = onCall(callableOpts, async (req) => {
   });
   return { ok: true };
 });
+
+/** Público: muestra el nombre del distribuidor al abrir el QR de registro (no expone otros datos). */
+export const resolveRegistrationCode = onCall(callableOpts, async (req) => {
+  const code = str((req.data as { code?: unknown })?.code, "Código", { max: 20 }).toUpperCase();
+  const q = await db.collection(COL.distributors).where("registrationCode", "==", code).limit(1).get();
+  const doc = q.docs[0];
+  if (!doc || doc.get("status") !== "active") return { valid: false };
+  return { valid: true, name: doc.get("name") as string, city: (doc.get("city") as string | null) ?? null };
+});

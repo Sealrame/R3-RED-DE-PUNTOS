@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@import "@fontsource-variable/manrope";
+
+@theme {
+  --font-sans: "Manrope Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-paper: #f5f4f0;
+  --color-surface: #ffffff;
+  --color-line: #e6e3dc;
+  --color-line-strong: #d3cfc5;
+  --color-ink: #0f1412;
+  --color-ink-2: #4a514d;
+  --color-muted: #7a817c;
+
+  --color-brand-50: #ecfaf3;
+  --color-brand-100: #d0f2e2;
+  --color-brand-500: #12a36d;
+  --color-brand-600: #0b8a5b;
+  --color-brand-700: #086e49;
+  --color-brand-900: #0c1a14;
+  --color-gold: #d8b45a;
+  --color-gold-soft: #f6ecd2;
+
+  --color-ok: #0b8a5b;
+  --color-ok-bg: #e6f6ee;
+  --color-warn: #a86b00;
+  --color-warn-bg: #fdf3dc;
+  --color-bad: #c23b3b;
+  --color-bad-bg: #fbe9e9;
+  --color-info: #2a6fc4;
+  --color-info-bg: #e8f0fb;
+
+  --color-series-1: #2a78d6;
+  --color-series-2: #eb6834;
+
+  --radius-card: 1.25rem;
+  --shadow-card: 0 1px 2px rgb(15 20 18 / 0.04), 0 4px 16px -6px rgb(15 20 18 / 0.08);
+  --shadow-float: 0 12px 40px -12px rgb(12 26 20 / 0.45);
+
+  --animate-rise: rise 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-pop: pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pop {
+  0% { opacity: 0; transform: scale(0.6); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+:root {
+  color-scheme: light;
+  -webkit-tap-highlight-color: transparent;
+}
+html, body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+body { min-height: 100dvh; }
+.tabular { font-variant-numeric: tabular-nums; }
+.pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 0.75rem); }
+
+.wallet-card {
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgb(61 220 151 / 0.22), transparent 55%),
+    radial-gradient(90% 70% at 0% 100%, rgb(216 180 90 / 0.18), transparent 60%),
+    linear-gradient(150deg, #10261d 0%, #0c1a14 60%, #08120e 100%);
+}
+.wallet-card::after {
+  content: "";
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
