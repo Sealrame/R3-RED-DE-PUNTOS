@@ -1,7 +1,8 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { monthLabel, formatPoints } from "@/lib/format";
 
-export const SERIES = { s1: "#2a78d6", s2: "#eb6834" };
+/** Colores de marca R3: Night y Yellow (la barra amarilla lleva contorno Night para contraste sobre blanco). */
+export const SERIES = { s1: "#0b1420", s2: "#f6c51b" };
 
 export interface SeriesDef { key: string; label: string; color: string }
 
@@ -11,7 +12,7 @@ export function MonthlyBars({ data, series, height = 240, format = formatPoints 
     <div>
       {series.length > 1 && (
         <div className="mb-3 flex flex-wrap gap-4 text-xs font-semibold text-ink-2">
-          {series.map((s) => <span key={s.key} className="inline-flex items-center gap-1.5"><span className="size-2.5 rounded-sm" style={{ background: s.color }} />{s.label}</span>)}
+          {series.map((s) => <span key={s.key} className="inline-flex items-center gap-1.5"><span className="size-2.5 rounded-sm ring-1 ring-ink/70" style={{ background: s.color }} />{s.label}</span>)}
         </div>
       )}
       <div style={{ height }} role="img" aria-label={`Gráfico mensual: ${series.map((s) => s.label).join(", ")}`}>
@@ -35,7 +36,7 @@ export function MonthlyBars({ data, series, height = 240, format = formatPoints 
                 ) : null
               }
             />
-            {series.map((s) => <Bar key={s.key} dataKey={s.key} name={s.label} fill={s.color} radius={[4, 4, 0, 0]} maxBarSize={28} />)}
+            {series.map((s) => <Bar key={s.key} dataKey={s.key} name={s.label} fill={s.color} stroke={s.color === SERIES.s2 ? "#0b1420" : undefined} strokeWidth={s.color === SERIES.s2 ? 1 : 0} radius={[4, 4, 0, 0]} maxBarSize={28} />)}
           </BarChart>
         </ResponsiveContainer>
       </div>

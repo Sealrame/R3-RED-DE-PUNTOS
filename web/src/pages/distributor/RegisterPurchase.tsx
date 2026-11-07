@@ -32,7 +32,7 @@ export default function RegisterPurchase() {
           <Link to="/distribuidor" className="grid size-10 place-items-center rounded-full bg-surface shadow-sm ring-1 ring-line" aria-label="Volver"><ArrowLeft className="size-5" /></Link>
         ) : null}
         <div>
-          <h1 className="text-xl font-extrabold tracking-tight">Registrar compra</h1>
+          <h1 className="title-display text-[26px]">Registrar compra</h1>
           <Steps step={step} />
         </div>
       </div>
@@ -49,7 +49,7 @@ export default function RegisterPurchase() {
         <div className="text-center animate-rise">
           <div className="mx-auto mt-6 grid size-24 place-items-center rounded-full bg-brand-100 text-brand-700 animate-pop"><CheckCircle2 className="size-14" /></div>
           <p className="mt-6 text-sm font-semibold text-muted">Puntos acreditados a {aff.fullName}</p>
-          <p className="tabular mt-1 text-6xl font-extrabold tracking-tight text-brand-700">+{formatPoints(result.points)}</p>
+          <p className="tabular font-display mt-2 text-[80px] leading-none text-ink">+{formatPoints(result.points)}</p>
           <p className="mt-2 text-sm text-ink-2">Compra de {formatUsd(result.amountCents)}</p>
           <p className="mt-1 break-all text-[11px] text-muted">ID: {result.transactionId}</p>
           <div className="mt-8 grid gap-3">
@@ -182,7 +182,7 @@ function AmountStep({ aff, cfg, amount, setAmount, reference, setReference, onNe
       <AffiliateChip aff={aff} />
       <div className="py-4 text-center">
         <p className="text-sm font-semibold text-muted">Monto de la compra (USD)</p>
-        <p className={cx("tabular mt-2 text-6xl font-extrabold tracking-tight", !amount && "text-line-strong")}>${amount || "0"}</p>
+        <p className={cx("tabular font-display mt-2 text-[72px] leading-none", !amount && "text-line-strong")}>${amount || "0"}</p>
         <p className="mt-3 text-sm font-semibold text-brand-700">{cents > 0 ? `≈ ${formatPoints(calculatePoints(cents, cfg))} puntos` : `${cfg.pointsPerDollar} punto${cfg.pointsPerDollar === 1 ? "" : "s"} por cada $1`}</p>
         {validation && !validation.ok && <p className="mt-1 text-xs font-semibold text-bad">{validation.reason}</p>}
       </div>
@@ -228,7 +228,7 @@ function ConfirmStep({ aff, cfg, amountCents, reference, onDone }: { aff: Affili
         <div className="flex items-center justify-between p-4"><span className="text-sm text-muted">Monto de compra</span><span className="tabular text-lg font-extrabold">{formatUsd(amountCents)}</span></div>
         {reference && <div className="flex items-center justify-between p-4"><span className="text-sm text-muted">Referencia</span><span className="text-sm font-semibold">{reference}</span></div>}
         <div className="flex items-center justify-between p-4"><span className="text-sm text-muted">Regla vigente</span><span className="text-sm font-semibold">$1 = {cfg.pointsPerDollar} pt · {cfg.rounding === "floor" ? "redondeo hacia abajo" : cfg.rounding === "ceil" ? "redondeo hacia arriba" : "redondeo normal"}</span></div>
-        <div className="flex items-center justify-between bg-brand-50 p-4"><span className="text-sm font-bold text-brand-700">Puntos a acreditar</span><span className="tabular text-3xl font-extrabold text-brand-700">{formatPoints(estimate)}</span></div>
+        <div className="flex items-center justify-between bg-brand-500 p-4"><span className="text-sm font-bold text-ink">Puntos a acreditar</span><span className="tabular font-display text-[40px] leading-none text-ink">{formatPoints(estimate)}</span></div>
       </Card>
       <p className="text-center text-xs text-muted">El servidor calcula y valida los puntos de forma definitiva al confirmar.</p>
       {err && <Alert tone="bad">{err}</Alert>}

@@ -59,7 +59,7 @@ export default function Settings() {
               <Field label="Ventana anti-duplicados (segundos)" hint="Compras iguales en este lapso requieren confirmación"><Input inputMode="numeric" value={String(f.dup)} onChange={(e) => setF({ ...f, dup: e.target.value })} /></Field>
               <Field label="Valor referencial de 1 punto (USD)" hint="Equivalencia informativa para premios"><Input inputMode="decimal" value={String(f.pointValue)} onChange={(e) => setF({ ...f, pointValue: e.target.value })} /></Field>
             </div>
-            <label className="flex items-center gap-2.5 text-sm font-semibold"><input type="checkbox" className="size-4 accent-brand-600" checked={f.requireDist === true} onChange={(e) => setF({ ...f, requireDist: e.target.checked })} /> Exigir QR o código de distribuidor para registrarse</label>
+            <label className="flex items-center gap-2.5 text-sm font-semibold"><input type="checkbox" className="size-4 accent-ink" checked={f.requireDist === true} onChange={(e) => setF({ ...f, requireDist: e.target.checked })} /> Exigir QR o código de distribuidor para registrarse</label>
             {err && <Alert tone="bad">{err}</Alert>}
             <Button type="submit" loading={busy}>Guardar reglas</Button>
           </form>

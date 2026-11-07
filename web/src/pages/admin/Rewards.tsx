@@ -80,7 +80,7 @@ function RewardForm({ reward, onClose }: { reward: WithId<Reward> | null; onClos
           <Field label="Puntos necesarios *"><Input inputMode="numeric" value={f.pointsCost} onChange={(e) => setF({ ...f, pointsCost: e.target.value.replace(/\D/g, "") })} required /></Field>
           <Field label="Disponibilidad (stock)" hint="Vacío = ilimitado"><Input inputMode="numeric" value={f.stock} onChange={(e) => setF({ ...f, stock: e.target.value.replace(/\D/g, "") })} /></Field>
           <Field label="Categoría"><Input value={f.category} onChange={(e) => setF({ ...f, category: e.target.value })} placeholder="Ej. Hogar, Tecnología" /></Field>
-          <label className="flex items-center gap-2.5 self-end pb-3 text-sm font-semibold"><input type="checkbox" className="size-4 accent-brand-600" checked={f.active} onChange={(e) => setF({ ...f, active: e.target.checked })} /> Visible para los socios</label>
+          <label className="flex items-center gap-2.5 self-end pb-3 text-sm font-semibold"><input type="checkbox" className="size-4 accent-ink" checked={f.active} onChange={(e) => setF({ ...f, active: e.target.checked })} /> Visible para los socios</label>
         </div>
         {err && <Alert tone="bad">{err}</Alert>}
         <Button type="submit" block size="lg" loading={busy} disabled={uploading}>Guardar</Button>

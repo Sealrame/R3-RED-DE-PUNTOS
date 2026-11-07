@@ -74,7 +74,7 @@ export default function Register() {
 
   return (
     <AuthLayout>
-      <h1 className="text-[28px] font-extrabold tracking-tight">Crea tu cuenta de socio</h1>
+      <h1 className="title-display text-[36px]">Crea tu cuenta de socio</h1>
       <p className="mt-1 text-sm text-muted">Gratis. Acumula 1 punto por cada $1 en toda la red.</p>
 
       {dist?.valid ? (
@@ -107,7 +107,7 @@ export default function Register() {
           </Field>
         )}
         <label className="flex items-start gap-2.5 text-sm text-ink-2">
-          <input type="checkbox" className="mt-0.5 size-4 accent-brand-600" checked={f.acceptTerms} onChange={(e) => set("acceptTerms", e.target.checked)} />
+          <input type="checkbox" className="mt-0.5 size-4 accent-ink" checked={f.acceptTerms} onChange={(e) => set("acceptTerms", e.target.checked)} />
           <span>Acepto los términos del programa y el tratamiento de mis datos personales conforme a la Ley Orgánica de Protección de Datos Personales del Ecuador.</span>
         </label>
         {errors.acceptTerms && <span className="-mt-2 block text-xs font-medium text-bad">{errors.acceptTerms}</span>}

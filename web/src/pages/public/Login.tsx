@@ -35,7 +35,7 @@ export default function Login() {
 
   return (
     <AuthLayout>
-      <h1 className="text-[28px] font-extrabold tracking-tight">Ingresar</h1>
+      <h1 className="title-display text-[40px]">Ingresar</h1>
       <p className="mt-1 text-sm text-muted">Socios: usa tu número de cédula o pasaporte. Distribuidores y administración: tu correo.</p>
       <form onSubmit={submit} className="mt-7 space-y-4">
         <Field label="Cédula, pasaporte o correo">

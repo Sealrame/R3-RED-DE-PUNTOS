@@ -49,7 +49,7 @@ export default function AdminDashboard() {
       <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
         <Card className="p-4 sm:p-5">
           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <h2 className="text-[15px] font-bold tracking-tight">Evolución mensual de puntos</h2>
+            <h2 className="text-[15px] font-bold tracking-tight">Puntos por mes</h2>
             <div className="flex flex-wrap gap-2">
               <Select value={distFilter} onChange={(e) => setDistFilter(e.target.value)} className="h-9 w-auto! max-w-56 text-sm" aria-label="Filtrar por distribuidor">
                 <option value="">Toda la red</option>

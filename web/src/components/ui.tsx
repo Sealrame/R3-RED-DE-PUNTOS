@@ -7,8 +7,8 @@ export const cx = (...c: (string | false | null | undefined)[]) => c.filter(Bool
 
 type Variant = "primary" | "secondary" | "ghost" | "danger" | "dark";
 const VARIANTS: Record<Variant, string> = {
-  primary: "bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-700 shadow-sm",
-  dark: "bg-brand-900 text-white hover:bg-black shadow-sm",
+  primary: "bg-brand-500 text-ink hover:bg-[#e8b70c] active:bg-[#e8b70c] shadow-sm",
+  dark: "bg-brand-900 text-white hover:bg-graphite shadow-sm",
   secondary: "bg-surface text-ink border border-line-strong hover:bg-paper",
   ghost: "text-ink-2 hover:bg-black/5",
   danger: "bg-bad text-white hover:brightness-95",
@@ -21,7 +21,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLBut
       ref={ref}
       disabled={disabled || loading}
       className={cx(
-        "inline-flex items-center justify-center gap-2 font-semibold transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 select-none",
+        "inline-flex items-center justify-center gap-2 font-semibold transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink select-none",
         VARIANTS[variant], SIZES[size], block && "w-full", className,
       )}
       {...p}
@@ -109,36 +109,26 @@ export function Stat({ label, value, sub, icon, accent }: { label: string; value
         <p className={cx("text-[13px] font-semibold", accent ? "text-white/70" : "text-muted")}>{label}</p>
         {icon && <span className={cx("grid size-8 place-items-center rounded-xl", accent ? "bg-white/10 text-gold" : "bg-paper text-ink-2")}>{icon}</span>}
       </div>
-      <p className="tabular mt-2 text-2xl font-extrabold tracking-tight sm:text-[28px]">{value}</p>
+      <p className="tabular font-display mt-2 text-[28px] leading-none sm:text-[32px]">{value}</p>
       {sub && <p className={cx("mt-0.5 text-xs", accent ? "text-white/60" : "text-muted")}>{sub}</p>}
     </Card>
   );
 }
 
-/** Logo de la marca: coloca el archivo oficial en web/public/brand/logo.png (fondo transparente). */
-export function Logo({ light, compact }: { light?: boolean; compact?: boolean }) {
-  const [img, setImg] = useState(true);
-  if (img)
-    return (
-      <img src="/brand/logo.png" alt={BRAND} onError={() => setImg(false)}
-        className={cx(compact ? "h-9" : "h-10", "w-auto max-w-44 object-contain", light && "rounded-lg bg-white p-1")} />
-    );
-  return (
-    <span className="inline-flex items-center gap-2.5">
-      <span className="relative grid size-9 place-items-center rounded-xl bg-brand-900 shadow-sm ring-1 ring-white/10">
-        <span className="size-4 rounded-full border-[3px] border-gold" />
-        <span className="absolute size-1.5 rounded-full bg-[#3ddc97]" />
-      </span>
-      {!compact && <span className={cx("text-[17px] font-extrabold tracking-tight", light ? "text-white" : "text-ink")}>{BRAND}</span>}
-    </span>
-  );
+/**
+ * Logo oficial R3 (Manual de Marca): versión "sobre papel" en fondos claros y versión clara sobre Night.
+ * compact = isotipo (cuando el espacio no permite el descriptor). Archivos en web/public/brand/.
+ */
+export function Logo({ light, compact, className }: { light?: boolean; compact?: boolean; className?: string }) {
+  const src = compact ? (light ? "/brand/isotipo-night.png" : "/brand/isotipo-papel.png") : light ? "/brand/logo-night.png" : "/brand/logo-papel.png";
+  return <img src={src} alt={BRAND} className={cx(compact ? "h-8" : "h-9", "w-auto select-none object-contain", className)} draggable={false} />;
 }
 
 export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: ReactNode; actions?: ReactNode }) {
   return (
     <div className="mb-5 flex flex-col gap-3 sm:mb-7 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h1 className="text-2xl font-extrabold tracking-tight sm:text-[28px]">{title}</h1>
+        <h1 className="title-display text-[28px] sm:text-[34px]">{title}</h1>
         {subtitle && <p className="mt-1 text-sm text-muted">{subtitle}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
@@ -213,7 +203,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           {items.map((t) => (
             <div key={t.id} role="status" className={cx("pointer-events-auto flex max-w-md items-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold shadow-[var(--shadow-float)] animate-rise",
               t.tone === "bad" ? "bg-bad text-white" : t.tone === "info" ? "bg-ink text-white" : "bg-brand-900 text-white")}>
-              {t.tone === "bad" ? <XCircle className="size-4" /> : <CheckCircle2 className="size-4 text-[#3ddc97]" />}
+              {t.tone === "bad" ? <XCircle className="size-4" /> : <CheckCircle2 className="size-4 text-brand-500" />}
               {t.text}
             </div>
           ))}

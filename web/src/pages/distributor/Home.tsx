@@ -23,14 +23,14 @@ export default function DistributorHome() {
     <div className="space-y-6">
       <div>
         <p className="text-sm font-semibold text-muted">Distribuidor</p>
-        <h1 className="text-2xl font-extrabold tracking-tight sm:text-[28px]">{dist?.name}</h1>
+        <h1 className="title-display text-[28px] sm:text-[34px]">{dist?.name}</h1>
       </div>
 
       <Link to="/distribuidor/compra" className="group block animate-rise">
         <div className="wallet-card relative flex items-center gap-5 overflow-hidden rounded-[28px] p-6 text-white shadow-[var(--shadow-float)] transition group-active:scale-[0.99] sm:p-8">
-          <span className="grid size-16 shrink-0 place-items-center rounded-2xl bg-[#3ddc97] text-brand-900 shadow-lg sm:size-20"><ScanLine className="size-8 sm:size-10" /></span>
+          <span className="grid size-16 shrink-0 place-items-center rounded-2xl bg-brand-500 text-ink shadow-lg sm:size-20"><ScanLine className="size-8 sm:size-10" /></span>
           <div className="min-w-0 flex-1">
-            <p className="text-2xl font-extrabold tracking-tight sm:text-3xl">Registrar compra</p>
+            <p className="title-display text-[30px] sm:text-[38px]">Registrar compra</p>
             <p className="mt-1 text-sm text-white/70">Escanea el QR del socio, ingresa el monto y acredita sus puntos.</p>
           </div>
           <ChevronRight className="size-7 shrink-0 text-white/60 transition group-hover:translate-x-1" />

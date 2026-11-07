@@ -11,15 +11,15 @@ export function AuthLayout({ children, aside }: { children: ReactNode; aside?: R
           {aside ?? (
             <>
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-gold">Programa de fidelización</p>
-              <h1 className="mt-4 text-5xl font-extrabold leading-[1.05] tracking-tight">Cada dólar suma.<br />En toda la red.</h1>
+              <h1 className="title-display mt-4 text-[64px]">Cada dólar suma.<br /><span className="text-gold">La red lo impulsa.</span></h1>
               <p className="mt-5 text-lg text-white/70">Acumula 1 punto por cada $1 en cualquier distribuidor participante de {BRAND} y canjéalos por premios.</p>
             </>
           )}
         </div>
-        <p className="text-xs text-white/40">© {new Date().getFullYear()} {BRAND} · Ecuador</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-steel">R3 / Red de Talleres · Ecuador</p>
       </div>
       <div className="flex flex-col px-5 py-8 sm:px-10">
-        <div className="lg:hidden"><Logo /></div>
+        <div className="lg:hidden"><Logo className="h-10" /></div>
         <div className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center py-8 animate-rise">{children}</div>
       </div>
     </div>
