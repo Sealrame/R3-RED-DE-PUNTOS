@@ -1,0 +1,26 @@
+# Configuración para Hostinger / Apache: app de una sola página (SPA) + HTTPS + caché
+Options -Indexes
+RewriteEngine On
+
+# Forzar HTTPS (la cámara para escanear QR solo funciona con HTTPS)
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Rutas de la app (/socio, /admin, /registro…) → index.html
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^ index.html [L]
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(self), microphone=(), geolocation=()"
+  <FilesMatch "\.(js|css|woff2?|png|svg)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "index\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
