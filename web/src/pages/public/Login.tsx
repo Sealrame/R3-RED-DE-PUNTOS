@@ -7,6 +7,7 @@ import { auth } from "@/lib/firebase";
 import { errorMessage } from "@/lib/api";
 import { Alert, Button, Field, Input, PageLoader, Sheet } from "@/components/ui";
 import { AuthLayout } from "./AuthLayout";
+import { InstallApp } from "@/components/InstallApp";
 
 export default function Login() {
   const s = useSession();
@@ -56,6 +57,7 @@ export default function Login() {
         <button onClick={() => setForgot(true)} className="font-semibold text-ink-2 hover:underline">¿Olvidaste tu contraseña?</button>
         <Link to="/registro" className="font-bold text-brand-700 hover:underline">Crear cuenta de socio</Link>
       </div>
+      <InstallApp className="mt-8" />
       <ForgotSheet open={forgot} onClose={() => setForgot(false)} />
     </AuthLayout>
   );

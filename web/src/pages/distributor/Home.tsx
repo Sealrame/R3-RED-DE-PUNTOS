@@ -7,6 +7,7 @@ import { formatPoints, formatUsd, lastMonths } from "@/lib/format";
 import { Card, Empty, PageLoader, SectionTitle, Stat } from "@/components/ui";
 import { TxList } from "@/components/TxList";
 import { MonthlyBars, SERIES } from "@/components/Charts";
+import { InstallApp } from "@/components/InstallApp";
 import { txByDistributor, useDistributorMonthly, useMyDistributor } from "./data";
 
 export default function DistributorHome() {
@@ -36,6 +37,8 @@ export default function DistributorHome() {
           <ChevronRight className="size-7 shrink-0 text-white/60 transition group-hover:translate-x-1" />
         </div>
       </Link>
+
+      <InstallApp />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat label="Puntos generados" value={formatPoints(dist?.pointsGenerated ?? 0)} icon={<Coins className="size-4" />} />

@@ -17,5 +17,10 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "id": "/",
+  "scope": "/",
+  "description": "Programa de puntos de R3 Red de Talleres",
+  "orientation": "portrait",
+  "lang": "es-EC"
 }

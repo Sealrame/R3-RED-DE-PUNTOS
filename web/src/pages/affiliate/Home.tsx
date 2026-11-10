@@ -5,6 +5,7 @@ import { TxList } from "@/components/TxList";
 import { fmtDate, formatPoints } from "@/lib/format";
 import { useMyAffiliate, useMyRedemptions, useMyTransactions } from "./data";
 import { WalletCard } from "./WalletCard";
+import { InstallApp } from "@/components/InstallApp";
 
 export default function AffiliateHome() {
   const { aff, wallet } = useMyAffiliate();
@@ -22,6 +23,7 @@ export default function AffiliateHome() {
             <Link to="/socio/qr"><Button size="lg" variant="dark" block className="whitespace-nowrap px-3 text-sm sm:text-base"><QrCode className="size-5" /> Mostrar mi QR</Button></Link>
             <Link to="/socio/recompensas"><Button size="lg" variant="secondary" block className="whitespace-nowrap px-3 text-sm sm:text-base"><Gift className="size-5" /> Ver recompensas</Button></Link>
           </div>
+          <InstallApp />
         </div>
         <div className="space-y-6">
           <Card className="p-4 sm:p-5">
