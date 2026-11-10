@@ -90,7 +90,7 @@ final class Domain
     {
         $t = class_exists('Normalizer') ? \Normalizer::normalize($text, \Normalizer::FORM_D) : $text;
         $t = preg_replace('/\p{Mn}+/u', '', (string) $t) ?? '';
-        $t = mb_strtolower($t, 'UTF-8');
+        $t = function_exists('mb_strtolower') ? mb_strtolower($t, 'UTF-8') : strtolower($t);
         return trim(preg_replace('/\s+/u', ' ', $t) ?? '');
     }
 

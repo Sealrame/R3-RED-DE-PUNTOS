@@ -30,7 +30,7 @@ function str_arg(array $d, string $key, string $label, int $min = 1, int $max = 
     if ($v === null || $v === '') { if ($optional) return ''; fail('invalid-argument', "El campo \"$label\" es obligatorio."); }
     if (!is_string($v)) fail('invalid-argument', "El campo \"$label\" no es válido.");
     $s = trim($v);
-    $len = mb_strlen($s);
+    $len = function_exists('mb_strlen') ? mb_strlen($s, 'UTF-8') : (int) preg_match_all('/./us', $s);
     if ($len < $min || $len > $max) fail('invalid-argument', "El campo \"$label\" debe tener entre $min y $max caracteres.");
     return $s;
 }
