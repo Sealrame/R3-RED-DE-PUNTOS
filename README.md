@@ -1,4 +1,9 @@
-# Red Puntos — Plataforma de fidelización para una red de distribuidores (Ecuador)
+# R3 Puntos — Plataforma de fidelización de R3 Red de Talleres (Ecuador)
+
+> **Despliegue actual: Hostinger (PHP) + Firebase plan gratuito (Spark).**
+> El servidor de negocio está en `web/public/api` (PHP 8.1+). La carpeta `functions/` (Cloud Functions) se conserva
+> como alternativa si algún día se activa el plan Blaze. Guía paso a paso en [`hostinger/LEEME.md`](hostinger/LEEME.md).
+
 
 Plataforma funcional con tres tipos de cuenta (**Administrador principal**, **Distribuidor**, **Socio/Afiliado**), QR personal por socio, escaneo con cámara, registro de compras con acumulación automática de puntos (**$1 = 1 punto**, redondeo hacia abajo), recompensas con canjes, auditoría y reportes.
 

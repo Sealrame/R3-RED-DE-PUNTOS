@@ -1,0 +1,11 @@
+# API PHP de R3 Puntos
+Options -Indexes
+RewriteEngine On
+# Pasa la cabecera Authorization a PHP (necesario en algunos servidores Apache/LiteSpeed)
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+# Las carpetas internas nunca se sirven
+RewriteRule ^(lib|fn)(/|$) - [F,L]
+# /api/<funcion> → index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([A-Za-z]+)$ index.php?fn=$1 [QSA,L]

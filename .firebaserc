@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "demo-red-puntos"
+    "default": "r3-puntos",
+    "demo": "demo-red-puntos"
   }
 }

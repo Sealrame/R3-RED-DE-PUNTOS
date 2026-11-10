@@ -1,5 +1,5 @@
 /**
- * Pruebas de integración end-to-end contra los emuladores de Firebase (Auth, Firestore, Functions).
+ * Pruebas de integración end-to-end: API PHP (servidor embebido) + emuladores de Firebase (Auth, Firestore).
  * Ejecuta: npm run test:integration
  * Verifica flujo completo + reglas de seguridad + protecciones (idempotencia, duplicados, doble descuento).
  */
@@ -13,10 +13,9 @@ import { getAuth, connectAuthEmulator, signInWithEmailAndPassword } from "fireba
 import {
   getFirestore, connectFirestoreEmulator, doc, getDoc, getDocs, collection, query, where, setDoc, updateDoc, orderBy,
 } from "firebase/firestore";
-import { getFunctions, connectFunctionsEmulator, httpsCallable } from "firebase/functions";
 
 const PROJECT = "demo-red-puntos";
-const REGION = "us-east1";
+const API = process.env.R3_API_URL ?? "http://127.0.0.1:8000/api";
 initAdmin({ projectId: PROJECT });
 
 const clients = [];
@@ -26,9 +25,15 @@ function client(name) {
   connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true });
   const db = getFirestore(app);
   connectFirestoreEmulator(db, "127.0.0.1", 8080);
-  const fns = getFunctions(app, REGION);
-  connectFunctionsEmulator(fns, "127.0.0.1", 5001);
-  const call = async (fn, data) => (await httpsCallable(fns, fn)(data)).data;
+  // Llama al API PHP (mismo protocolo que usa el frontend)
+  const call = async (fn, data) => {
+    const headers = { "Content-Type": "application/json" };
+    if (auth.currentUser) headers.Authorization = `Bearer ${await auth.currentUser.getIdToken()}`;
+    const r = await fetch(`${API}/${fn}`, { method: "POST", headers, body: JSON.stringify({ data }) });
+    const j = await r.json();
+    if (j.error) { const e = new Error(j.error.message); e.code = "functions/" + j.error.status.toLowerCase().replace(/_/g, "-"); e.details = j.error.details; throw e; }
+    return j.result;
+  };
   const c = { app, auth, db, call, login: async (e, p) => { await signInWithEmailAndPassword(auth, e, p); await auth.currentUser.getIdToken(true); } };
   clients.push(c);
   return c;

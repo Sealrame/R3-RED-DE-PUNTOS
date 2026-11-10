@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { collection, orderBy, query } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Gift, ImagePlus, Plus } from "lucide-react";
-import { db, storage } from "@/lib/firebase";
+import { db } from "@/lib/firebase";
 import { useQuery } from "@/lib/hooks";
-import { api, errorMessage, newKey } from "@/lib/api";
+import { api, errorMessage, uploadRewardImage } from "@/lib/api";
 import type { Reward, WithId } from "@/lib/types";
 import { formatPoints } from "@/lib/format";
 import { Alert, Badge, Button, Card, Empty, Field, Input, PageHeader, PageLoader, Sheet, Textarea, useToast } from "@/components/ui";
@@ -51,12 +50,8 @@ function RewardForm({ reward, onClose }: { reward: WithId<Reward> | null; onClos
     if (file.size > 3 * 1024 * 1024) { setErr("La imagen debe pesar menos de 3 MB."); return; }
     setUploading(true); setErr(null);
     try {
-      const path = `rewards/${newKey()}.${file.type.split("/")[1]}`;
-      const r = ref(storage, path);
-      await uploadBytes(r, file, { contentType: file.type, cacheControl: "public,max-age=31536000" });
-      setF((x) => ({ ...x, imageUrl: "", imagePath: path }));
-      const url = await getDownloadURL(r);
-      setF((x) => ({ ...x, imageUrl: url }));
+      const r = await uploadRewardImage(file);
+      setF((x) => ({ ...x, imageUrl: r.url, imagePath: r.path }));
     } catch (e) { setErr(errorMessage(e)); } finally { setUploading(false); }
   };
 

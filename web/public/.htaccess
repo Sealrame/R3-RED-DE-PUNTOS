@@ -6,6 +6,9 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# El API PHP (/api) y las imágenes subidas (/uploads) no pasan por la app
+RewriteRule ^(api|uploads)(/|$) - [L]
+
 # Rutas de la app (/socio, /admin, /registro…) → index.html
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d

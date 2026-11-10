@@ -1,10 +1,35 @@
-import { httpsCallable } from "firebase/functions";
-import { functions } from "./firebase";
+import { auth } from "./firebase";
 import type { IdType, PointsConfig } from "@shared/domain";
 
+/** Servidor PHP en el mismo dominio (Hostinger): /api/<función>. */
+const API_BASE = (import.meta.env.VITE_API_BASE as string | undefined) || "/api";
+
+export class ApiError extends Error {
+  constructor(public code: string, message: string, public details?: unknown) { super(message); }
+}
+
+async function post<Res>(name: string, init: RequestInit): Promise<Res> {
+  const headers = new Headers(init.headers);
+  const user = auth.currentUser;
+  if (user) headers.set("Authorization", `Bearer ${await user.getIdToken()}`);
+  let r: Response;
+  try { r = await fetch(`${API_BASE}/${name}`, { ...init, method: "POST", headers }); }
+  catch { throw new ApiError("functions/unavailable", "Sin conexión con el servidor."); }
+  let body: { result?: Res; error?: { status: string; message: string; details?: unknown } };
+  try { body = await r.json(); } catch { throw new ApiError("functions/internal", "Respuesta inválida del servidor."); }
+  if (body.error) throw new ApiError("functions/" + body.error.status.toLowerCase().replace(/_/g, "-"), body.error.message, body.error.details);
+  return body.result as Res;
+}
+
 function fn<Req, Res>(name: string) {
-  const c = httpsCallable<Req, Res>(functions, name);
-  return async (data: Req) => (await c(data)).data;
+  return (data: Req) => post<Res>(name, { headers: { "Content-Type": "application/json" }, body: JSON.stringify({ data }) });
+}
+
+/** Sube la imagen de una recompensa a la carpeta /uploads del hosting (solo admin). */
+export function uploadRewardImage(file: File) {
+  const form = new FormData();
+  form.append("file", file);
+  return post<{ url: string; path: string }>("uploadRewardImage", { body: form });
 }
 
 export interface AffiliateLookup { id: string; fullName: string; code: string; status: string; idMasked: string; linkedToYou: boolean; linkedDistributorName?: string | null; idNumber?: string; phone?: string; email?: string | null; distributorName?: string | null; balance?: number }
@@ -53,8 +78,7 @@ const FRIENDLY: Record<string, string> = {
 export function errorMessage(e: unknown): string {
   const err = e as { code?: string; message?: string };
   const code = err?.code ?? "";
-  if (code.startsWith("functions/") && !["functions/internal", "functions/unavailable", "functions/unauthenticated"].includes(code) && err.message && !/^(INTERNAL|internal)$/.test(err.message))
-    return err.message;
+  if (code.startsWith("functions/") && err.message && !/^(INTERNAL|internal)$/.test(err.message)) return err.message;
   return FRIENDLY[code] ?? err?.message ?? "Error desconocido.";
 }
 

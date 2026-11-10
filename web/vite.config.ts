@@ -11,13 +11,13 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-  server: { fs: { allow: [".."] }, host: true },
+  server: { fs: { allow: [".."] }, host: true, proxy: { "/api": "http://127.0.0.1:8000", "/uploads": "http://127.0.0.1:8000" } },
   build: {
     chunkSizeWarningLimit: 700,
     rollupOptions: {
       output: {
         manualChunks: {
-          firebase: ["firebase/app", "firebase/auth", "firebase/firestore", "firebase/functions", "firebase/storage"],
+          firebase: ["firebase/app", "firebase/auth", "firebase/firestore"],
           charts: ["recharts"],
         },
       },

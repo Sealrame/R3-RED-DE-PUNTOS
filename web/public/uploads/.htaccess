@@ -1,0 +1,5 @@
+# Solo imágenes: nunca ejecutar scripts subidos
+Options -Indexes
+<FilesMatch "\.(php|phtml|phar|pl|py|cgi|sh|htaccess)$">
+  Require all denied
+</FilesMatch>

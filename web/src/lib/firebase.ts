@@ -1,8 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
 import { connectFirestoreEmulator, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "firebase/firestore";
-import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
-import { connectStorageEmulator, getStorage } from "firebase/storage";
 import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
 
 const env = import.meta.env;
@@ -27,13 +25,9 @@ export const db = initializeFirestore(
   app,
   useEmulators ? {} : { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) },
 );
-export const functions = getFunctions(app, env.VITE_FUNCTIONS_REGION || "us-east1");
-export const storage = getStorage(app);
 
 if (useEmulators) {
   const host = location.hostname;
   connectAuthEmulator(auth, `http://${host}:9099`, { disableWarnings: true });
   connectFirestoreEmulator(db, host, 8080);
-  connectFunctionsEmulator(functions, host, 5001);
-  connectStorageEmulator(storage, host, 9199);
 }

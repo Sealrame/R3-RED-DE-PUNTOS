@@ -10,3 +10,6 @@ web/.env.local
 service-account*.json
 .firebase/
 test-results/
+web/public/uploads/*
+!web/public/uploads/.htaccess
+r3-puntos-hostinger.zip
