@@ -38,15 +38,23 @@ final class Config
 {
     private static ?array $cfg = null;
 
+    /**
+     * Carpeta privada r3-private, siempre FUERA de public_html. Se busca en los niveles superiores a public_html
+     * (…/domains/<dominio>/r3-private o /home/<usuario>/r3-private), tanto en la ruta real como en la simbólica.
+     */
     public static function privateDir(): string
     {
         $env = getenv('R3_PRIVATE_DIR');
         if ($env) return rtrim($env, '/');
-        // Siempre FUERA de public_html: …/domains/<dominio>/r3-private (sirve también si la app está en un subdominio o subcarpeta)
-        $dir = str_replace('\\', '/', __DIR__);
-        $pos = strrpos($dir, '/public_html/');
-        if ($pos !== false) return substr($dir, 0, $pos) . '/r3-private';
-        return dirname(__DIR__, 3) . '/r3-private';
+        $candidates = [];
+        foreach (array_unique([str_replace('\\', '/', __DIR__), str_replace('\\', '/', (string) realpath(__DIR__))]) as $dir) {
+            $pos = strrpos($dir, '/public_html/');
+            if ($pos === false) continue;
+            $base = substr($dir, 0, $pos);            // carpeta que contiene public_html
+            for ($i = 0; $i < 3 && $base && $base !== '/'; $i++) { $candidates[] = $base . '/r3-private'; $base = dirname($base); }
+        }
+        foreach ($candidates as $c) if (is_file("$c/service-account.json") || is_file("$c/config.php")) return $c;
+        return $candidates[0] ?? dirname(__DIR__, 3) . '/r3-private';
     }
 
     public static function get(): array
