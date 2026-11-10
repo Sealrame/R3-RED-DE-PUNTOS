@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Download, PlusSquare, Share } from "lucide-react";
 import { Button, Sheet } from "./ui";
+import { isNativeApp } from "@/lib/native";
 
 type PromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> };
 let deferred: PromptEvent | null = null;
@@ -23,7 +24,7 @@ export function InstallApp({ className }: { className?: string }) {
     window.addEventListener("appinstalled", onInstalled);
     return () => { window.removeEventListener("beforeinstallprompt", onPrompt); window.removeEventListener("appinstalled", onInstalled); };
   }, []);
-  if (installed || (!canPrompt && !isIos())) return null;
+  if (isNativeApp || installed || (!canPrompt && !isIos())) return null;
   return (
     <>
       <Button variant="secondary" block className={className} onClick={async () => {

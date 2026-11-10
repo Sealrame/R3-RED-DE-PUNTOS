@@ -4,6 +4,7 @@ import QrScannerLib from "qr-scanner";
 import { Camera, CameraOff, Download, Share2 } from "lucide-react";
 import { Button, cx } from "./ui";
 import { BRAND } from "@/lib/firebase";
+import { blobToBase64, native } from "@/lib/native";
 
 /** Dibuja un QR en canvas (alta corrección de errores para pantallas con brillo bajo o rayadas). */
 export function QrImage({ value, size = 240, className }: { value: string; size?: number; className?: string }) {
@@ -51,11 +52,12 @@ function roundRect(g: CanvasRenderingContext2D, x: number, y: number, w: number,
 
 export function QrActions({ value, title, subtitle, filename }: { value: string; title: string; subtitle: string; filename: string }) {
   const [busy, setBusy] = useState(false);
-  const canShare = typeof navigator !== "undefined" && "canShare" in navigator;
+  const canShare = !!native || (typeof navigator !== "undefined" && "canShare" in navigator);
   const download = async () => {
     setBusy(true);
     try {
       const blob = await qrCardPng(value, title, subtitle);
+      if (native) { native.saveImage(await blobToBase64(blob), filename); return; }
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a"); a.href = url; a.download = filename; a.click();
       setTimeout(() => URL.revokeObjectURL(url), 1500);
@@ -63,6 +65,7 @@ export function QrActions({ value, title, subtitle, filename }: { value: string;
   };
   const share = async () => {
     const blob = await qrCardPng(value, title, subtitle);
+    if (native) { native.shareImage(await blobToBase64(blob), filename, title); return; }
     const file = new File([blob], filename, { type: "image/png" });
     if (navigator.canShare?.({ files: [file] })) await navigator.share({ files: [file], title }).catch(() => undefined);
     else await download();
